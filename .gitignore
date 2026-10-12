@@ -35,7 +35,7 @@ wheels/
 .env.local
 
 # Database and stored test accounts (contain credentials)
-#data/framework.db
+data/framework.db
 data/framework.db-journal
 data/framework.db.*
 data/test_credentials.json
