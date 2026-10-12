@@ -1,0 +1,36 @@
+llm:
+  model: "gpt-4-turbo"
+  # Estimated pricing used for cost reporting; token counts always come from the API usage fields.
+  pricing:
+    input_per_1k: 0.01
+    output_per_1k: 0.03
+
+framework:
+  cache_strategy: "hybrid"
+  # Minimum LLM confidence to act on an element. Below this the step is Blocked instead of guessing.
+  ai_confidence_threshold: 0.6
+  # false: healed references stay "pending" until a reviewer approves them (--approve-heal / --reject-heal).
+  auto_approve_heals: false
+  headless_mode: true
+  screenshot_on_failure: true
+  screenshot_format: "png"
+  log_level: "INFO"
+
+database:
+  type: "sqlite"
+  path: "./data/framework.db"
+  enable_backup: true
+
+logging:
+  level: "INFO"
+  format: "json"
+  llm_log_file: "./logs/llm_usage.csv"
+  run_history_file: "./logs/run_history.csv"
+
+security:
+  mask_credentials: true
+  redact_patterns:
+    - "password"
+    - "token"
+    - "credit_card"
+    - "ssn"

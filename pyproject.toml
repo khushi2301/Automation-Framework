@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "selfheal-test-automation"
+version = "1.0.0"
+description = "Excel-driven web test automation that learns elements with an LLM, replays them with zero tokens and heals with review"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "pydantic>=2.0.0",
+    "openpyxl>=3.1.0",
+    "playwright>=1.40.0",
+    "pyyaml>=6.0",
+    "openai>=1.0.0",
+    "python-dotenv>=1.0.0",
+]
+
+[project.scripts]
+selfheal-run = "main:main"
+
+[tool.setuptools]
+py-modules = ["main"]
+# Explicit list (not find): the root config/ folder is shipped as the package src.defaults, so the installed command
+# works from any folder. Add a new sub-package here when you create one.
+packages = [
+    "src", "src.framework", "src.models", "src.storage", "src.tools", "src.utils", "src.defaults",
+]
+
+[tool.setuptools.package-dir]
+"src.defaults" = "config"
+
+[tool.setuptools.package-data]
+"src.defaults" = ["*.yaml"]

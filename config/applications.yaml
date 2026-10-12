@@ -1,0 +1,73 @@
+applications:
+  automation_exercise:
+    name: "Automation Exercise"
+    base_url: "https://www.automationexercise.com"
+    description: "Automation practice application"
+    environments:
+      production:
+        url: "https://www.automationexercise.com"
+        screenshot_dir: "./screenshots/automation_exercise"
+    login:
+      method: "form"
+      description: >-
+        Click 'Signup / Login' in the header. The page shows two forms side by side:
+        'New User Signup!' (registration) and 'Login to your account'. To log in, fill Email Address
+        and Password inside the 'Login to your account' form and click its 'Login' button.
+    # Extra knowledge about this application's forms, given to the planner. After editing, run with --replan.
+    planner_hints: >-
+      The /login page has two separate forms: 'Login to your account' (Email Address, Password, Login button) and
+      'New User Signup!' (Name, Email Address, Signup button; it has no Password field). Every login step, including
+      the password, must name the 'Login to your account' form and never the registration form. The registration form
+      only appears after clicking Signup and is a different page.
+      The registration form has separate dropdowns for birth day, month and year, and no Title is required.
+      The payment form has separate inputs for the card expiry month and the expiry year.
+      Adding a product to the cart opens a confirmation dialog with 'Continue Shopping' and 'View Cart'.
+    # Accounts are created by replaying this registration test case when a test needs a logged-in user.
+    registration_test_case: "TC_002"
+    account_markers:
+      created: ["ACCOUNT CREATED!"]
+      deleted: ["ACCOUNT DELETED!"]
+    # Practice site: submitting the test card never charges anything. Set to false to refuse payment steps.
+    allow_test_payments: true
+    block_url_patterns:
+      - "googlesyndication.com"
+      - "doubleclick.net"
+      - "googleadservices.com"
+      - "adservice.google"
+      - "pagead"
+    rate_limit:
+      requests_per_second: 1
+      page_load_timeout: 30
+
+  sauce_demo:
+    name: "Sauce Demo"
+    base_url: "https://www.saucedemo.com"
+    description: "Sample e-commerce application with fixed demo users"
+    environments:
+      production:
+        url: "https://www.saucedemo.com"
+        screenshot_dir: "./screenshots/sauce_demo"
+    login:
+      method: "form"
+      description: >-
+        The home page shows a Username and a Password field and a Login button. Fill both and click Login.
+    # Provided test account; no registration flow exists on this application.
+    test_account:
+      email: "standard_user"
+      password: "secret_sauce"
+      name: "standard_user"
+    allow_test_payments: false
+    rate_limit:
+      requests_per_second: 1
+      page_load_timeout: 30
+
+# The framework only navigates to hosts on this list and refuses anything else.
+allowed_domains:
+  - "automationexercise.com"
+  - "saucedemo.com"
+
+# A click that would submit a payment is refused unless the application allows test payments
+# and every card number used by the test case is one of these well-known test cards.
+payment_guard:
+  keywords: ["pay and confirm", "pay now", "submit payment", "buy now", "complete purchase"]
+  allowed_test_cards: ["4111111111111111", "4242424242424242", "5555555555554444"]
